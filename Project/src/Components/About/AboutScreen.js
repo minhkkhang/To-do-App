@@ -1,40 +1,34 @@
-import { Component, useState } from 'react';
 import * as React from 'react';
 import {
   StyleSheet,
   View,
   Text,
-  StatusBar,
-  Dimensions,
 } from 'react-native';
 
-import loginImg from '../Common/imgs/login.png';
 import MyButton from '../Common/MyButton';
+
+import loginImg from '../Common/imgs/login.png';
 import {AuthContext} from '../../context';
 
 
-const Home = ({ navigation }) => {
-    const { signOut } = React.useContext(AuthContext);
-    const userName='world';
-    const logOut=async ()=>{
-        signOut();
-    }
-  
+const AboutScreen = ({ navigation }) => {
+  const { signOut } = React.useContext(AuthContext);
     return (
         <View style={styles.parentView}>
-        <View style={styles.buttonContainer}>
-                <MyButton text="Dang xuat" onPress={() => logOut()} 
-                source={loginImg} height={50} backgroundColor='steelblue'/>
-        </View>
-
+        <View style={{flex:2}}/>
         <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>{userName}</Text>
+          <Text style={styles.sectionTitle}>First Application</Text>
         </View>
         
+        <View style={styles.buttonContainer}>
+          <MyButton text="Dang xuat" onPress={() => signOut()} 
+          source={loginImg} height={50} backgroundColor='steelblue'/>
+        </View>
+        <View style={{flex:2.5}}/>
       </View>
     );
 };
-export default Home;
+export default AboutScreen;
   
 
 const styles = StyleSheet.create({
@@ -46,8 +40,8 @@ const styles = StyleSheet.create({
   titleContainer: {
     marginTop: 32,
     marginHorizontal:20,
-    flex:7,
-    backgroundColor:'powderblue',
+    flex:2,
+    backgroundColor:'steelblue',
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'row',
@@ -56,13 +50,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     margin:32,
     
-    color: 'black',
+    color: 'white',
     fontWeight: '700',
   },
   buttonContainer:{
-    flex:1,
+    flex:1.5,
     flexDirection:'row',
-    justifyContent:'flex-end',
+    justifyContent:'center',
     alignItems:'center',
   },
 });
