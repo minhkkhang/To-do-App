@@ -12,12 +12,12 @@ onComponentDidMount = () => {
 }
 
 const DrawerNavigator = () => {
+  
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator initialRouteName='Home' backBehavior='order'>
       <Drawer.Screen name="Home" component={HomeTabNavigator} />
       <Drawer.Screen name="About" component={AboutScreen} />
     </Drawer.Navigator>
   );
 }
-
 export default DrawerNavigator;

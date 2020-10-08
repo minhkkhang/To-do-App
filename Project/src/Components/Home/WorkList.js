@@ -4,52 +4,32 @@ import {
   View,
   Text,
 } from 'react-native';
-
-import MyButton from '../Common/MyButton';
-
+import MyListView from '../Common/MyListView'
 
 
-const WorkList = ({ navigation }) => {
+const WorkList = ({route, navigation}) => {
+  var arr=route.params.list;
+  const showTaskDetail=(id)=>{
+    navigation.push('WorkDetail', {
+      id: id
+    })
+  }
     return (
-        <View style={styles.parentView}>
-        <View style={{flex:2}}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>Work List</Text>
-        </View>
-        
-        <View style={{flex:2.5}}/>
-      </View>
+      <View style={styles.container}>
+      <MyListView
+        itemList={arr}
+        onPress={showTaskDetail}
+      />
+    </View>
     );
 };
 export default WorkList;
   
 
 const styles = StyleSheet.create({
-  parentView: {
-    backgroundColor: 'powderblue',
-    flex:8,
+  container: {
+    backgroundColor: 'white',
+    flex:1,
     flexDirection: 'column',
-  },
-  titleContainer: {
-    marginTop: 32,
-    marginHorizontal:20,
-    flex:2,
-    backgroundColor:'steelblue',
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection:'row',
-  },
-  sectionTitle: {
-    fontSize: 24,
-    margin:32,
-    
-    color: 'white',
-    fontWeight: '700',
-  },
-  buttonContainer:{
-    flex:1.5,
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
-  },
+  }
 });

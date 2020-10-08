@@ -11,13 +11,15 @@ import loginImg from '../Common/imgs/login.png';
 import {AuthContext} from '../../context';
 
 
-const AboutScreen = ({ navigation }) => {
+const AboutScreen = () => {
   const { signOut } = React.useContext(AuthContext);
+
+
     return (
         <View style={styles.parentView}>
         <View style={{flex:2}}/>
         <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>First Application</Text>
+          <Text style={styles.sectionTitle}>About this app</Text>
         </View>
         
         <View style={styles.buttonContainer}>

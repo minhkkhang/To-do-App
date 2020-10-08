@@ -9,7 +9,6 @@
 import 'react-native-gesture-handler';
 import Login from './src/Components/Authentication/Login';
 import SignUp from './src/Components/Authentication/SignUp';
-import Home from './src/Components/Home/Home'
 import * as React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,7 +16,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {
   View,ActivityIndicator
 } from 'react-native';
-import { AuthContext } from './src/context'
+import { AuthContext } from './src/context';
+import DrawerNavigator from './src/Navigations/DrawerNavigator';
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
@@ -147,7 +147,7 @@ const App: () => React$Node = () => {
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} options={{headerShown:false}} />
+            <Stack.Screen name="Home" component={DrawerNavigator} options={{headerShown:false}} />
           </Stack.Navigator>
         )}
     </NavigationContainer>
