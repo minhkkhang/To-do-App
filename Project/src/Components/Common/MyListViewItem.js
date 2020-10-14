@@ -1,32 +1,28 @@
 
 import React from 'react';
-import { View, Text, StyleSheet,TouchableWithoutFeedback} from 'react-native';
+import { View, Text, StyleSheet,TouchableWithoutFeedback, ImageBackground} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
         padding: 10,
-        marginLeft:16,
-        marginRight:16,
-        marginTop: 8,
-        marginBottom: 8,
-        borderRadius: 20,
-        backgroundColor: 'powderblue',
+        marginTop: 5,
+        marginBottom: 2,
+        borderBottomWidth:1,
         elevation: 2,
     },
     title: {
         color:'steelblue',
         fontSize: 20,
         fontWeight:'bold',
-        flex: 1, flexWrap: 'wrap',textAlign:'center'
+        flex: 1, flexWrap: 'wrap',textAlign:'left'
     },
     container_title: {
         flex: 5,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems:'center',
-        marginBottom:10
+        flexDirection: 'column',
+        marginBottom:10,
     },
     container_status:{
         flex: 1,
@@ -48,8 +44,8 @@ const styles = StyleSheet.create({
 
 const MyListViewItem = ({ title, status, id, onPress }) => {
     return (
-    <TouchableWithoutFeedback onPress={()=>{onPress(id)}}>
-        <View style={styles.container}>
+    <TouchableOpacity onPress={()=>{onPress(id)}}>
+        <ImageBackground style={styles.container}>
             <View style={styles.container_title}>
                 <View style={{flex:1}}/>
                 <View style={{flex:3}}>
@@ -65,9 +61,9 @@ const MyListViewItem = ({ title, status, id, onPress }) => {
                 </Text>
             </View>
             
-        </View>
+        </ImageBackground>
 
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
 )};
 
 export default MyListViewItem;

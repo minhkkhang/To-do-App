@@ -14,10 +14,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  View,ActivityIndicator
+  View,
+  ActivityIndicator, 
+  Image,
+  Dimensions
 } from 'react-native';
 import { AuthContext } from './src/context';
 import DrawerNavigator from './src/Navigations/DrawerNavigator';
+
+import HeaderBackground from './src/Components/Common/imgs/header-background.png'
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
@@ -135,20 +140,18 @@ const App: () => React$Node = () => {
           <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
             <Stack.Screen name="SignUp" component={SignUp} 
-                options={{title:'',
-                  headerBackTitle:'Login',
+                options={{
+                  headerTitle: props => <Image resizeMode='cover'
+                  style={{ width:Dimensions.get('screen').width, height: 70}} source={HeaderBackground}/>,
                   headerStyle: {
-                      backgroundColor: 'powderblue',
-                    }
-                  ,
-                  headerTintColor: '#000',
-                }} 
+                    height: 70, // Specify the height of your custom header
+                  },
+                  headerTintColor: '#000'
+                }}
             />
           </Stack.Navigator>
         ) : (
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={DrawerNavigator} options={{headerShown:false}} />
-          </Stack.Navigator>
+          <DrawerNavigator />
         )}
     </NavigationContainer>
     </AuthContext.Provider>

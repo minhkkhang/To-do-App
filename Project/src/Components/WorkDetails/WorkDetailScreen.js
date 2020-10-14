@@ -2,11 +2,13 @@ import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Text, Image
+  Text, Image,ImageBackground
 } from 'react-native';
 import getList from '../Home/ListMethods'
 import calendarImg from '../Common/imgs/calendar.png'
+import BackGround from '../Common/imgs/paper.png'
 import { ScrollView } from 'react-native-gesture-handler';
+
 
 
 
@@ -18,11 +20,12 @@ const WorkDetailScreen = ({ route }) => {
     }
   }
     return (
-        <View style={styles.parentView}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>{task.taskName}</Text>
-        </View>
+        <ImageBackground source={BackGround} style={styles.parentView}>
         <ScrollView style={styles.scrollview}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.sectionTitle}>{task.taskName}</Text>
+          </View>
+        
           <View style={styles.detailContainer}>
             <Text style={styles.detail}>
               {task.detail}
@@ -37,8 +40,13 @@ const WorkDetailScreen = ({ route }) => {
               ---- {task.endDate}
             </Text>
           </View>
+          <View style={styles.dateContainer}>
+            <Text style={styles.detail}>
+              Trang thai: {task.status}
+            </Text>
+          </View>
         </ScrollView>
-      </View>
+      </ImageBackground>
     );
 };
 export default WorkDetailScreen;
@@ -49,23 +57,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex:5,
     flexDirection: 'column',
+    paddingLeft:55
   },
   titleContainer: {
     marginTop: 20,
     marginHorizontal:10,
     flex:1,
-    backgroundColor:'powderblue',
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'row',
-    borderRadius:20,
+    borderBottomWidth:1,
     elevation:2
   },
   sectionTitle: {
     fontSize: 24,
     margin:10,
-    color: 'steelblue',
     fontWeight: '700',
+    color:'black'
   },
   scrollview:{
     flex:4
@@ -76,12 +84,8 @@ const styles = StyleSheet.create({
     padding:5,
     flex:3,
     flexWrap:'wrap',
-    backgroundColor:'powderblue',
-    justifyContent:'center',
-    alignItems:'center',
     flexDirection:'row',
-    borderRadius:20,
-    elevation:2
+    borderBottomWidth:1,
   },
   detail:{
     fontSize: 18,
@@ -93,12 +97,7 @@ const styles = StyleSheet.create({
     padding:5,
     flex:1,
     flexWrap:'wrap',
-    backgroundColor:'powderblue',
-    justifyContent:'center',
-    alignItems:'center',
     flexDirection:'row',
-    borderRadius:20,
-    elevation:2
   },
   date:{
     fontSize: 16,

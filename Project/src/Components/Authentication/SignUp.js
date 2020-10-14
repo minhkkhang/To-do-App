@@ -5,6 +5,7 @@ import {
   Text,
   StatusBar,
   Dimensions,
+  ImageBackground
 } from 'react-native';
 
 import UserInput from '../Common/UserInput';
@@ -12,9 +13,11 @@ import MyButton from '../Common/MyButton';
 import MyRadioGroup from '../Common/MyRadioGroup';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import usernameImg from '../Common/imgs/user.png';
-import passwordImg from '../Common/imgs/password.png';
-import signupImg from '../Common/imgs/sign-up.png';
+import UsernameImg from '../Common/imgs/user.png';
+import PasswordImg from '../Common/imgs/password.png';
+import SignupImg from '../Common/imgs/sign-up.png';
+import HeaderBackground from '../Common/imgs/fixed.png'
+import EmailImg from '../Common/imgs/email.png';
 import {AuthContext} from '../../context';
 
 
@@ -48,29 +51,26 @@ const SignUp = ({navigation}) => {
           <View style={styles.mainView}>
               <StatusBar barStyle="light-content" />
               <View style={styles.parentView}>
-              <View style={{flex:0.75}}/>
-              <View style={styles.titleContainer}>
-                <Text style={styles.sectionTitle}>First Application</Text>
-              </View>
+              <ImageBackground style={styles.titleContainer} source={HeaderBackground}>
+              </ImageBackground>
               <View style={styles.textboxContainer}>
-              <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={usernameImg} 
+              <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={UsernameImg} 
               data={userInfo.userName} onChange={handleChange} keyboardType='default'/>
               </View>
               
               <View style={styles.textboxContainer}>
-              <UserInput id="password" placeholder="Mat khau" maxLength={15} source={passwordImg} 
+              <UserInput id="password" placeholder="Mat khau" maxLength={15} source={PasswordImg} 
               data={userInfo.password} onChange={handleChange} keyboardType='default'/>
               </View>
 
               <View style={styles.textboxContainer}>
-              <UserInput id="email" placeholder="Email" maxLength={15} source={passwordImg} 
+              <UserInput id="email" placeholder="Email" maxLength={15} source={EmailImg} 
               data={userInfo.email} onChange={handleChange} keyboardType='email-address'/>
               </View>
 
               <View style={{marginHorizontal: 24,
                             marginVertical:5,
                             flex:0.75,
-                            backgroundColor:'powderblue',
                             flexDirection:'row',
                             justifyContent:'flex-end'}}>
               <MyRadioGroup 
@@ -83,7 +83,7 @@ const SignUp = ({navigation}) => {
 
               <View style={styles.buttonContainer}>
                 <MyButton text="Dang ky" onPress={()=>signup()} 
-                source={signupImg} height={50} backgroundColor='steelblue'/>
+                source={SignupImg} height={50} backgroundColor='powderblue' borderRadius={10}/>
               </View>
               <View style={{flex:0.75}}/>
             </View>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     height:Dimensions.get('window').height-20,
   },
   parentView: {
-    backgroundColor: 'powderblue',
+    backgroundColor: 'white',
     flex:8,
     flexDirection: 'column',
   },
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginVertical:5,
     flex:0.75,
-    backgroundColor:'white',
+    backgroundColor:'black',
+    padding:1.5
   },
 });

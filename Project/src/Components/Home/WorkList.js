@@ -2,9 +2,9 @@ import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
 } from 'react-native';
 import MyListView from '../Common/MyListView'
+import ListBackGround from '../Common/imgs/paper.png'
 
 
 const WorkList = ({route, navigation}) => {
@@ -15,10 +15,11 @@ const WorkList = ({route, navigation}) => {
     })
   }
     return (
-      <View style={styles.container}>
+      <View style={styles.container} >
       <MyListView
         itemList={arr}
         onPress={showTaskDetail}
+        source={ListBackGround}
       />
     </View>
     );
@@ -30,6 +31,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     flex:1,
-    flexDirection: 'column',
+    flexDirection: 'column'
   }
 });

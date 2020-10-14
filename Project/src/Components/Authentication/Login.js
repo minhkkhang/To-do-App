@@ -6,6 +6,7 @@ import {
   Text,
   StatusBar,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 
 import UserInput from '../Common/UserInput';
@@ -13,10 +14,11 @@ import MyButton from '../Common/MyButton';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import usernameImg from '../Common/imgs/user.png';
-import passwordImg from '../Common/imgs/password.png';
-import loginImg from '../Common/imgs/login.png';
-import signupImg from '../Common/imgs/sign-up.png';
+import UsernameImg from '../Common/imgs/user.png';
+import PasswordImg from '../Common/imgs/password.png';
+import LoginImg from '../Common/imgs/login.png';
+import SignupImg from '../Common/imgs/sign-up.png';
+import HeaderBackground from '../Common/imgs/fixed.png'
 import {AuthContext} from '../../context';
 
 
@@ -46,29 +48,30 @@ const Login = ({ navigation }) => {
           <View style={styles.mainView}>
               <StatusBar barStyle="light-content" />
               <View style={styles.parentView}>
-              <View style={{flex:1}}/>
-              <View style={styles.titleContainer}>
-                <Text style={styles.sectionTitle}>First Application</Text>
-              </View>
+              <View style={{flex:0.5}}/>
+              <ImageBackground style={styles.titleContainer} source={HeaderBackground}>
+              </ImageBackground>
+              <View style={{flex:0.5}}/>
               <View style={styles.textboxContainer}>
-              <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={usernameImg} 
+              <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={UsernameImg} 
               data={userInfo.userName} onChange={handleChange} keyboardType='default' />
               </View>
               
               <View style={styles.textboxContainer}>
-              <UserInput id="password" placeholder="Mat khau" maxLength={15} source={passwordImg} 
+              <UserInput id="password" placeholder="Mat khau" maxLength={15} source={PasswordImg} 
               data={userInfo.password} onChange={handleChange} keyboardType='default'/>
               </View>
+              <View style={{flex:0.5}}/>
               <View style={styles.buttonContainer}>
                 <MyButton text="Dang nhap" onPress={() => login()} 
-                source={loginImg} height={50} backgroundColor='steelblue'/>
+                source={LoginImg} height={50} backgroundColor='powderblue' borderRadius={10}/>
                 <MyButton text="Dang ky" onPress={() => navigation.push('SignUp')} 
-                source={signupImg} height={50} backgroundColor='steelblue'/>
+                source={SignupImg} height={50} backgroundColor='powderblue' borderRadius={10}/>
               </View>
-              <View style={{flex:2}}/>
+              <View style={{flex:0.5}}/>
             </View>
           </View>
-        
+
       </KeyboardAwareScrollView>
     );
 };
@@ -80,15 +83,15 @@ const styles = StyleSheet.create({
     height:Dimensions.get('window').height,
   },
   parentView: {
-    backgroundColor: 'powderblue',
+    backgroundColor: 'white',
     flex:8,
     flexDirection: 'column',
+    justifyContent:'space-between',
   },
   titleContainer: {
     marginTop: 32,
     marginHorizontal:20,
     flex:2,
-    backgroundColor:'steelblue',
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'row',
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   buttonContainer:{
-    flex:1.5,
+    flex:1,
     flexDirection:'row',
     justifyContent:'space-evenly',
     alignItems:'center',
@@ -110,6 +113,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginVertical:5,
     flex:0.75,
-    backgroundColor:'white',
+    backgroundColor:'black',
+    padding:1.5,
+    borderRadius:10
   },
 });

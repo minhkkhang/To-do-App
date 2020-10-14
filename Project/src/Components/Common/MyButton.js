@@ -10,7 +10,7 @@ import {
 const MyButton = (props)=>{
     return (
         <TouchableOpacity onPress={()=>{props.onPress();}} 
-        style={{height:props.height,backgroundColor:props.backgroundColor}}>
+        style={{height:props.height,backgroundColor:props.backgroundColor,borderRadius:props.borderRadius}}>
             <View style={styles.button}>
             <Image source={props.source} style={styles.inlineImg} />
             <Text style={styles.text}>{props.text}</Text>

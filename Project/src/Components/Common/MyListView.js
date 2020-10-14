@@ -1,16 +1,11 @@
 import React from 'react';
-import { View, FlatList, StyleSheet} from 'react-native';
+import { FlatList, ImageBackground} from 'react-native';
 import MyListViewItem from './MyListViewItem';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
 
 
-const MyListview = ({ itemList,onPress }) => (
-    <View style={styles.container}>
+const MyListview = ({source,itemList,onPress}) => (
+    <ImageBackground source={source} style={{flex:1,paddingLeft:55}}>
         <FlatList
                 data={itemList}
                 renderItem={({ item }) => (<MyListViewItem
@@ -22,7 +17,7 @@ const MyListview = ({ itemList,onPress }) => (
                 keyExtractor={(item) => item.id.toString()}
             />
 
-    </View>
+    </ImageBackground>
 );
 
 export default MyListview;
