@@ -55,17 +55,17 @@ const SignUp = ({navigation}) => {
               </ImageBackground>
               <View style={styles.textboxContainer}>
               <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={UsernameImg} 
-              data={userInfo.userName} onChange={handleChange} keyboardType='default'/>
+              data={userInfo.userName} onChange={handleChange} keyboardType='default' borderRadius={20}/>
               </View>
               
               <View style={styles.textboxContainer}>
               <UserInput id="password" placeholder="Mat khau" maxLength={15} source={PasswordImg} 
-              data={userInfo.password} onChange={handleChange} keyboardType='default'/>
+              data={userInfo.password} onChange={handleChange} keyboardType='default' borderRadius={20}/>
               </View>
 
               <View style={styles.textboxContainer}>
               <UserInput id="email" placeholder="Email" maxLength={15} source={EmailImg} 
-              data={userInfo.email} onChange={handleChange} keyboardType='email-address'/>
+              data={userInfo.email} onChange={handleChange} keyboardType='email-address' borderRadius={20}/>
               </View>
 
               <View style={{marginHorizontal: 24,
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     marginVertical:5,
     flex:0.75,
     backgroundColor:'black',
+    borderRadius:20,
     padding:1.5
   },
 });

@@ -15,8 +15,9 @@ import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
-const WorkDetailScreen = ({ route }) => {
+const WorkDetailScreen = ({ route,navigation }) => {
   const task=useSelector(state => state.todo.list.find(task => task.id === route.params.id));
+  navigation.tabBarVisible= false;
     return (
         <ImageBackground source={BackGround} style={styles.parentView}>
           <ScrollView style={styles.scrollview}>

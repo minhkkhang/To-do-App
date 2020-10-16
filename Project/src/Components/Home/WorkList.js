@@ -11,24 +11,48 @@ import {
 import MyListView from '../../Common/MyListView'
 import UserInput from '../../Common/UserInput';
 import ListBackGround from '../../Assets/imgs/home-background.png'
-
+import { useSelector, useDispatch } from 'react-redux'
+import {AddTask} from '../../Slices/todo'
 
 const WorkList = ({route, navigation}) => {
+  const dispatch=useDispatch();
   const showTaskDetail=(id)=>{
     navigation.push('WorkDetail', {
       id: id
     })
   }
+  const currentID=useSelector(state => state.todo.currentID)
   const addTask=()=>{
+    if(newTask.taskName==='' || newTask.detail===''){
+      alert('Khong the them cong viec nay!');
+      return;
+    }
+    const task={
+      taskName:newTask.taskName,
+      id:currentID,
+      detail:newTask.detail,
+      startDate:'Unknown',
+      endDate:'Unknown',
+      status:'not started'
+    }
+    try{
+      dispatch(AddTask(task))
+    }catch(err){
+      console.log(err)
+      alert('Khong the them cong viec nay!')
+      return
+    }
+    handleChange('taskName','');
+    handleChange('detail','');
     setModalVisible(!modalVisible);
   }
   const [modalVisible, setModalVisible] = React.useState(false);
-  /*const [newTask,setNewTask]=React.useState({taskName:'',detail:''});*/
+  const [newTask,setNewTask]=React.useState({taskName:'',detail:''});
   const handleChange = (id,value) => {
-    /*setNewTask(prevState => ({
+    setNewTask(prevState => ({
         ...prevState,
         [id]: value
-    }));*/
+    }));
   };
 
     return (
@@ -41,7 +65,9 @@ const WorkList = ({route, navigation}) => {
       />
       <TouchableOpacity
         activeOpacity={0.7}
-        onPress={addTask}
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
         style={styles.floatingbutton}>
         <Image
           source={require('../../Assets/imgs/add.png')}
@@ -59,13 +85,15 @@ const WorkList = ({route, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.titleStyle}>Them cong viec</Text>
-              <View style={styles.textcontainer}>
-                <UserInput id="taskName" placeholder="Ten cong viec" multiline={true} source='' 
-                onChange={handleChange} keyboardType='default' />
+              <View style={styles.textcontainer1}>
+                <UserInput id="taskName" placeholder="Ten cong viec" multiline={false} source='' 
+                onChange={handleChange} value={newTask.taskName} keyboardType='default' height={50}
+                borderRadius={20}/>
               </View>
-              <View style={styles.textcontainer}>
+              <View style={styles.textcontainer2}>
                 <UserInput id="detail" placeholder="Mo ta cong viec" multiline={true} source='' 
-                onChange={handleChange} keyboardType='default' />
+                onChange={handleChange} value={newTask.detail} keyboardType='default' height={170}
+                borderRadius={20}/>
               </View>
               
               <View style={styles.modalbuttonscontainer}>
@@ -78,7 +106,7 @@ const WorkList = ({route, navigation}) => {
                     marginHorizontal:10,
                     backgroundColor:'#17c'}}
                   onPress={() => {
-                    setModalVisible(!modalVisible);
+                    addTask();
                   }}
                 >
                   <Text style={styles.textStyle}>OK</Text>
@@ -133,22 +161,29 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     position: 'absolute',
-    height:400,
+    height:350,
+    width:Dimensions.get('screen').width-50,
     left: 20,
-    bottom: 80,
+    bottom: 80
   },
-  textcontainer:{
+  textcontainer1:{
     borderWidth:1,
-    flex:1,
-    marginVertical:5
+    marginVertical:5,
+    height:50,
+    borderRadius:20
+  },
+  textcontainer2:{
+    borderWidth:1,
+    marginVertical:5,
+    height:170,
+    borderRadius:20
   },
   modalView: {
     flex:1,
     flexDirection:'column',
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 10,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -157,7 +192,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
+    borderWidth:2
   },
   textStyle: {
     color: "white",
@@ -175,7 +211,7 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   modalbuttonscontainer:{
-    marginTop:20,
+    marginTop:10,
     flexDirection:'row',
     height: 60
   }

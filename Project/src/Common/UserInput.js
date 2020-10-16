@@ -17,10 +17,18 @@ const UserInput=(props)=>{
     if(props.id==='email')autocomplete='email';
     if(props.id==='userName')autocomplete='username';
     return (
-        <View style={styles.wrapper}>
-            {props.source===''?<View />:<Image source={props.source} style={styles.inlineImg} />}
-            <View style={{width:Dimensions.get('window').width-155,}}>
-                <TextInput style={styles.TextInput}
+        <View style={{
+          flex:1,
+          backgroundColor:'white',
+          justifyContent:'flex-start',
+          alignItems:'center',
+          flexDirection:'row',
+          borderRadius: props.borderRadius||0,
+          height:props.height || 75}}
+          >
+            {props.source===''?<View style={{width: 5,}} />:<Image source={props.source} style={styles.inlineImg} />}
+            <View style={{width:Dimensions.get('window').width-155}}>
+                <TextInput style={styles.textInput}
                     id={props.id}
                     placeholder={props.placeholder||''}
                     secureTextEntry={showPass}

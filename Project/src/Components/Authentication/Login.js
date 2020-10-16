@@ -55,12 +55,12 @@ const Login = ({ navigation }) => {
               <View style={{flex:0.5}}/>
               <View style={styles.textboxContainer}>
               <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={UsernameImg} 
-              value={userInfo.userName} onChange={handleChange} keyboardType='default' />
+              value={userInfo.userName} onChange={handleChange} keyboardType='default' borderRadius={20}/>
               </View>
               
               <View style={styles.textboxContainer}>
               <UserInput id="password" placeholder="Mat khau" maxLength={15} source={PasswordImg} 
-              value={userInfo.password} onChange={handleChange} keyboardType='default'/>
+              value={userInfo.password} onChange={handleChange} keyboardType='default' borderRadius={20}/>
               </View>
               <View style={{flex:0.5}}/>
               <View style={styles.buttonContainer}>
@@ -116,6 +116,6 @@ const styles = StyleSheet.create({
     flex:0.75,
     backgroundColor:'black',
     padding:1.5,
-    borderRadius:10
+    borderRadius:20
   },
 });

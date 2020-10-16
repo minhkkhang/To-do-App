@@ -11,7 +11,8 @@ export const ToDoSlice = createSlice({
     },
     reducers: {
         init: (state,action) => {
-          state.currentID=action.payload.length;
+          const max = Math.max.apply(null, action.payload.map(item => item.id));
+          state.currentID=max+1;
           state.list=JSON.parse(JSON.stringify(action.payload))
         },
         add: (state,action) => {
@@ -52,7 +53,7 @@ export const ToDoSlice = createSlice({
         }
     }
   })
-const {init,add,update,remove,toggle_busy_flag,toggle_idle_flag} = ToDoSlice.actions
+const {init,add,update,remove,toggle_busy_flag,toggle_idle_flag,toggle_init_flag} = ToDoSlice.actions
 
 const initValue=[
   {
@@ -108,14 +109,13 @@ export const InitList = () => {
     // the inside "thunk function"
     return async (dispatch, getState) => {
       try {
-        dispatch(toggle_busy_flag());
         // make an async call to async storage in the thunk
         const todos = await AsyncStorage.getItem('todoList');
         const parsedTodos = JSON.parse(todos);
         if(parsedTodos==null)throw new Error('No list');
         // dispatch an action when we get the response back
         dispatch(init(parsedTodos));
-        dispatch(toggle_idle_flag());
+        dispatch(toggle_init_flag());
       } catch (err) {
         // If the list has never been initiated in async storage then it will be initiated here
         try{
@@ -124,12 +124,11 @@ export const InitList = () => {
         catch(error){
             console.log(error);
         }
-        dispatch(toggle_idle_flag());
+        dispatch(toggle_init_flag());
         console.log(err);
       }
     }
 }
-
 const recreateList = async(list)=>{
     try {
         //save the initial state of the list as AsyncStorage list since there is currently no list in storage
@@ -144,6 +143,7 @@ const recreateList = async(list)=>{
 export const AddTask = Task =>{
   return async (dispatch, getState) => {
       try {
+          if(getState().todo.flag==='BUSY')throw new Error('Chuong trinh dang ban!');
           dispatch(toggle_busy_flag());
           // -Clone the current list, add the new task in and save the newly created list in storage
           // -I have to clone the current list because i need to check if the new task is saved successfully
@@ -167,6 +167,7 @@ export const AddTask = Task =>{
 export const UpdateTask = (Task) =>{
   return async (dispatch, getState) => {
       try {
+          if(getState().todo.flag==='BUSY')throw new Error('Chuong trinh dang ban!');
           dispatch(toggle_busy_flag());
           //same thing as Add function
           let currentList= JSON.parse(JSON.stringify(getState().todo.list));
@@ -194,6 +195,7 @@ export const UpdateTask = (Task) =>{
 export const DeleteTask = (id) =>{
   return async (dispatch, getState) => {
       try {
+          if(getState().todo.flag==='BUSY')throw new Error('Chuong trinh dang ban!');
           dispatch(toggle_busy_flag());
           //same thing as Add function
           let newList=JSON.parse(JSON.stringify(getState().todo.list));
