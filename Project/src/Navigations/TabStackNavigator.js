@@ -2,11 +2,10 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import WorkDetailScreen from '../Components/WorkDetails/WorkDetailScreen';
 import WorkList from '../Components/Home/WorkList';
-import getList from '../Components/Home/ListMethods'
 import {
   Image,
   TouchableOpacity,
-  Dimensions,View
+  Dimensions
 } from 'react-native';
 import MenuIcon from '../Assets/imgs/menu-symbol.png'
 import HeaderBackground from '../Assets/imgs/header-background.png'

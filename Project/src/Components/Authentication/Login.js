@@ -1,9 +1,8 @@
-import { Component, useState } from 'react';
+import { useState } from 'react';
 import * as React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
   StatusBar,
   Dimensions,
   ImageBackground,
