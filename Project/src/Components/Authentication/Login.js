@@ -9,16 +9,17 @@ import {
   ImageBackground,
 } from 'react-native';
 
-import UserInput from '../Common/UserInput';
-import MyButton from '../Common/MyButton';
+import UserInput from '../../Common/UserInput';
+import MyButton from '../../Common/MyButton';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import UsernameImg from '../Common/imgs/user.png';
-import PasswordImg from '../Common/imgs/password.png';
-import LoginImg from '../Common/imgs/login.png';
-import SignupImg from '../Common/imgs/sign-up.png';
-import HeaderBackground from '../Common/imgs/fixed.png'
+import UsernameImg from '../../Assets/imgs/user.png';
+import PasswordImg from '../../Assets/imgs/password.png';
+import LoginImg from '../../Assets/imgs/login.png';
+import SignupImg from '../../Assets/imgs/sign-up.png';
+import HeaderBackground from '../../Assets/imgs/fixed.png'
+import BackGround from '../../Assets/imgs/home-background.png'
 import {AuthContext} from '../../context';
 
 
@@ -47,29 +48,29 @@ const Login = ({ navigation }) => {
       scrollEnabled={false}>
           <View style={styles.mainView}>
               <StatusBar barStyle="light-content" />
-              <View style={styles.parentView}>
+              <ImageBackground source={BackGround} style={styles.parentView}>
               <View style={{flex:0.5}}/>
               <ImageBackground style={styles.titleContainer} source={HeaderBackground}>
               </ImageBackground>
               <View style={{flex:0.5}}/>
               <View style={styles.textboxContainer}>
               <UserInput id="userName" placeholder="Ten dang nhap" maxLength={15} source={UsernameImg} 
-              data={userInfo.userName} onChange={handleChange} keyboardType='default' />
+              value={userInfo.userName} onChange={handleChange} keyboardType='default' />
               </View>
               
               <View style={styles.textboxContainer}>
               <UserInput id="password" placeholder="Mat khau" maxLength={15} source={PasswordImg} 
-              data={userInfo.password} onChange={handleChange} keyboardType='default'/>
+              value={userInfo.password} onChange={handleChange} keyboardType='default'/>
               </View>
               <View style={{flex:0.5}}/>
               <View style={styles.buttonContainer}>
                 <MyButton text="Dang nhap" onPress={() => login()} 
-                source={LoginImg} height={50} backgroundColor='powderblue' borderRadius={10}/>
+                source={LoginImg} height={50} backgroundColor='#17c' textColor='white' borderRadius={10}/>
                 <MyButton text="Dang ky" onPress={() => navigation.push('SignUp')} 
-                source={SignupImg} height={50} backgroundColor='powderblue' borderRadius={10}/>
+                source={SignupImg} height={50} backgroundColor='#17c' textColor='white' borderRadius={10}/>
               </View>
               <View style={{flex:0.5}}/>
-            </View>
+            </ImageBackground>
           </View>
 
       </KeyboardAwareScrollView>

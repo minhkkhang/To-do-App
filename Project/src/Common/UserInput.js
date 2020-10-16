@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import showPassImg from './imgs/view.png';
+import showPassImg from '../Assets/imgs/view.png';
 
 const UserInput=(props)=>{
     const isPasswordInput=props.placeholder==="Mat khau";
@@ -18,17 +18,18 @@ const UserInput=(props)=>{
     if(props.id==='userName')autocomplete='username';
     return (
         <View style={styles.wrapper}>
-            <Image source={props.source} style={styles.inlineImg} />
+            {props.source===''?<View />:<Image source={props.source} style={styles.inlineImg} />}
             <View style={{width:Dimensions.get('window').width-155,}}>
                 <TextInput style={styles.TextInput}
                     id={props.id}
-                    placeholder={props.placeholder}
+                    placeholder={props.placeholder||''}
                     secureTextEntry={showPass}
-                    maxLength={props.maxLength}
-                    defaultValue={props.value}
+                    maxLength={props.maxLength||1000}
+                    defaultValue={props.value||''}
                     enablesReturnKeyAutomatically={true}
                     keyboardType={props.keyboardType}
                     autoCompleteType={autocomplete}
+                    multiline={props.multiline || false}
                     onChangeText={text=>{props.onChange(props.id,text)}}/>
             </View>
             

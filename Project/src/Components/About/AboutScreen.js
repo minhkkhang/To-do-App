@@ -5,17 +5,20 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  ImageBackground
 } from 'react-native';
 
-import MyButton from '../Common/MyButton';
+import MyButton from '../../Common/MyButton';
 
-import loginImg from '../Common/imgs/login.png';
+import loginImg from '../../Assets/imgs/login.png';
 import {AuthContext} from '../../context';
 
 import { createStackNavigator} from '@react-navigation/stack';
-import MenuIcon from '../Common/imgs/menu-symbol.png'
-import HeaderBackground from '../Common/imgs/header-background.png'
+import MenuIcon from '../../Assets/imgs/menu-symbol.png'
+import HeaderBackground from '../../Assets/imgs/header-background.png'
+import BackGround from '../../Assets/imgs/home-background.png'
+import TitleBackground from '../../Assets/imgs/fixed.png'
 const Stack = createStackNavigator();
 
 
@@ -25,18 +28,15 @@ const AboutScreen = ({navigation}) => {
 
   const ActualScreen =()=>{
     return (
-      <View style={styles.parentView}>
-        <View style={{flex:2}}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.sectionTitle}>About this app</Text>
-        </View>
-        
+      <ImageBackground style={styles.parentView} source={BackGround}>
+        <ImageBackground style={styles.titleContainer} source={TitleBackground}>
+        </ImageBackground>
         <View style={styles.buttonContainer}>
           <MyButton text="Dang xuat" onPress={() => signOut()} 
-          source={loginImg} height={50} backgroundColor='steelblue' borderRadius={5}/>
+          source={loginImg} height={50} borderRadius={15}  backgroundColor='#17c' textColor='white'/>
         </View>
         <View style={{flex:2.5}}/>
-      </View>
+      </ImageBackground>
     );
   }
 

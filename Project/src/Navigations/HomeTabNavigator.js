@@ -1,10 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabStackNavigator from './TabStackNavigator'
-import HomeIcon from '../Components/Common/imgs/home.png'
-import NotStartedIcon from '../Components/Common/imgs/pending.png'
-import DoingIcon from '../Components/Common/imgs/clock.png'
-import DoneIcon from '../Components/Common/imgs/done.png'
+import HomeIcon from '../Assets/imgs/home.png'
+import NotStartedIcon from '../Assets/imgs/pending.png'
+import DoingIcon from '../Assets/imgs/clock.png'
+import DoneIcon from '../Assets/imgs/done.png'
 import { Image } from "react-native";
 
 
@@ -13,7 +13,8 @@ const Tab = createBottomTabNavigator();
 const HomeTabNavigator = () => {
   return (
     <Tab.Navigator tabBarOptions={{
-      activeTintColor: 'steelblue', 
+      activeTintColor: 'white',
+      activeBackgroundColor:'#17c',
       inactiveTintColor: 'grey', 
       showIcon: true,
       

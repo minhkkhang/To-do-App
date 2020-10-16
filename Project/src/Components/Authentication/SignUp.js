@@ -8,16 +8,17 @@ import {
   ImageBackground
 } from 'react-native';
 
-import UserInput from '../Common/UserInput';
-import MyButton from '../Common/MyButton';
-import MyRadioGroup from '../Common/MyRadioGroup';
+import UserInput from '../../Common/UserInput';
+import MyButton from '../../Common/MyButton';
+import MyRadioGroup from '../../Common/MyRadioGroup';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import UsernameImg from '../Common/imgs/user.png';
-import PasswordImg from '../Common/imgs/password.png';
-import SignupImg from '../Common/imgs/sign-up.png';
-import HeaderBackground from '../Common/imgs/fixed.png'
-import EmailImg from '../Common/imgs/email.png';
+import UsernameImg from '../../Assets/imgs/user.png';
+import PasswordImg from '../../Assets/imgs/password.png';
+import SignupImg from '../../Assets/imgs/sign-up.png';
+import HeaderBackground from '../../Assets/imgs/fixed.png'
+import BackGround from '../../Assets/imgs/home-background.png'
+import EmailImg from '../../Assets/imgs/email.png';
 import {AuthContext} from '../../context';
 
 
@@ -45,12 +46,11 @@ const SignUp = ({navigation}) => {
   }
     return (
       <KeyboardAwareScrollView
-      style={{ backgroundColor: '#4c69a5' }}
       resetScrollToCoords={{ x: 0, y: 0 }}
       scrollEnabled={false}>
           <View style={styles.mainView}>
               <StatusBar barStyle="light-content" />
-              <View style={styles.parentView}>
+              <ImageBackground source={BackGround}  style={styles.parentView}>
               <ImageBackground style={styles.titleContainer} source={HeaderBackground}>
               </ImageBackground>
               <View style={styles.textboxContainer}>
@@ -83,10 +83,10 @@ const SignUp = ({navigation}) => {
 
               <View style={styles.buttonContainer}>
                 <MyButton text="Dang ky" onPress={()=>signup()} 
-                source={SignupImg} height={50} backgroundColor='powderblue' borderRadius={10}/>
+                source={SignupImg} height={50} backgroundColor='#17c' textColor='white' borderRadius={10}/>
               </View>
               <View style={{flex:0.75}}/>
-            </View>
+            </ImageBackground>
           </View>
         
       </KeyboardAwareScrollView>

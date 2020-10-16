@@ -8,48 +8,20 @@ import {
   TouchableOpacity,
   Dimensions,View
 } from 'react-native';
-import MenuIcon from '../Components/Common/imgs/menu-symbol.png'
-import HeaderBackground from '../Components/Common/imgs/header-background.png'
+import MenuIcon from '../Assets/imgs/menu-symbol.png'
+import HeaderBackground from '../Assets/imgs/header-background.png'
 
 const Stack = createStackNavigator();
 
 //Stack navigator cua moi Tab trong trang Home, moi stack chua 2 screen la list va workdetail
 const TabStackNavigator = ({navigation,route}) => {
-  var arr=[];
-  switch (route.params.category){
-    case 'all':
-      for(i=0;i<getList().length;i++){
-        arr.push(getList()[i]);
-      }
-      break;
-    case 'done':
-      for(i=0;i<getList().length;i++){
-        if(getList()[i].status==='done'){
-          arr.push(getList()[i]);
-        }
-      }
-      break;
-    case 'doing':
-      for(i=0;i<getList().length;i++){
-        if(getList()[i].status==='doing'){
-          arr.push(getList()[i]);
-        }
-      }
-      break;
-    case 'not started':
-      for(i=0;i<getList().length;i++){
-        if(getList()[i].status==='not started'){
-          arr.push(getList()[i]);
-        }
-      }
-      break;
-  }
+  
   onComponentDidMount = () => {
     console.log("In stack");
   }
 
   return (
-    <Stack.Navigator initialRouteName='HomeStack'>
+    <Stack.Navigator initialRouteName='WorkList'>
       <Stack.Screen name="WorkDetail" component={WorkDetailScreen} 
         options={{
           headerTitle: props => <Image resizeMode='cover'
@@ -60,7 +32,7 @@ const TabStackNavigator = ({navigation,route}) => {
           headerTintColor: '#000'
         }}
       />
-      <Stack.Screen name="HomeStack" component={WorkList} initialParams={{ list: arr }}
+      <Stack.Screen name="WorkList" component={WorkList} initialParams={{ category: route.params.category }}
       options={{
           headerTitle: props => <Image resizeMode='cover'
           style={{ width:Dimensions.get('screen').width, height: 70}} source={HeaderBackground}/>,

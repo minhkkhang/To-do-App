@@ -9,6 +9,8 @@
 import 'react-native-gesture-handler';
 import Login from './src/Components/Authentication/Login';
 import SignUp from './src/Components/Authentication/SignUp';
+import store from './src/store'
+import { Provider } from 'react-redux'
 import * as React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,7 +24,7 @@ import {
 import { AuthContext } from './src/context';
 import DrawerNavigator from './src/Navigations/DrawerNavigator';
 
-import HeaderBackground from './src/Components/Common/imgs/header-background.png'
+import HeaderBackground from './src/Assets/imgs/header-background.png'
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
@@ -79,6 +81,7 @@ const App: () => React$Node = () => {
     bootstrapAsync();
   }, []);
 
+
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
@@ -134,28 +137,29 @@ const App: () => React$Node = () => {
   }
 
   return (
-    <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        {state.userToken == null ? (
-          <Stack.Navigator initialRouteName='Login'>
-            <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
-            <Stack.Screen name="SignUp" component={SignUp} 
-                options={{
-                  headerTitle: props => <Image resizeMode='cover'
-                  style={{ width:Dimensions.get('screen').width, height: 70}} source={HeaderBackground}/>,
-                  headerStyle: {
-                    height: 70, // Specify the height of your custom header
-                  },
-                  headerTintColor: '#000'
-                }}
-            />
-          </Stack.Navigator>
-        ) : (
-          <DrawerNavigator />
-        )}
-    </NavigationContainer>
-    </AuthContext.Provider>
-    
+    <Provider store={store}>
+      <AuthContext.Provider value={authContext}>
+        <NavigationContainer>
+          {state.userToken == null ? (
+            <Stack.Navigator initialRouteName='Login'>
+              <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
+              <Stack.Screen name="SignUp" component={SignUp} 
+                  options={{
+                    headerTitle: props => <Image resizeMode='cover'
+                    style={{ width:Dimensions.get('screen').width, height: 70}} source={HeaderBackground}/>,
+                    headerStyle: {
+                      height: 70, // Specify the height of your custom header
+                    },
+                    headerTintColor: '#000'
+                  }}
+              />
+            </Stack.Navigator>
+          ) : (
+            <DrawerNavigator />
+          )}
+      </NavigationContainer>
+      </AuthContext.Provider>
+    </Provider>
   )
 };
 

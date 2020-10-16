@@ -4,24 +4,23 @@ import {
   View,
   Text, Image,ImageBackground
 } from 'react-native';
-import getList from '../Home/ListMethods'
-import calendarImg from '../Common/imgs/calendar.png'
-import BackGround from '../Common/imgs/paper.png'
+import calendarImg from '../../Assets/imgs/calendar.png'
+import BackGround from '../../Assets/imgs/home-background.png'
+import TaskBackGround from '../../Assets/imgs/paper.png'
 import { ScrollView } from 'react-native-gesture-handler';
+
+import { useSelector} from 'react-redux'
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
 
 const WorkDetailScreen = ({ route }) => {
-  var task;
-  for(i=0;i<getList().length;i++){
-    if(getList()[i].id===route.params.id){
-      task=getList()[i];
-    }
-  }
+  const task=useSelector(state => state.todo.list.find(task => task.id === route.params.id));
     return (
         <ImageBackground source={BackGround} style={styles.parentView}>
-        <ScrollView style={styles.scrollview}>
+          <ScrollView style={styles.scrollview}>
+          <View style={{flex:1,marginHorizontal:20,backgroundColor:'white',borderRadius:20,elevation:2}}>
           <View style={styles.titleContainer}>
             <Text style={styles.sectionTitle}>{task.taskName}</Text>
           </View>
@@ -45,7 +44,10 @@ const WorkDetailScreen = ({ route }) => {
               Trang thai: {task.status}
             </Text>
           </View>
+          </View>
+          
         </ScrollView>
+        
       </ImageBackground>
     );
 };
@@ -57,7 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex:5,
     flexDirection: 'column',
-    paddingLeft:55
   },
   titleContainer: {
     marginTop: 20,
@@ -67,16 +68,21 @@ const styles = StyleSheet.create({
     alignItems:'center',
     flexDirection:'row',
     borderBottomWidth:1,
+    backgroundColor:'white',
+    borderRadius:20,
     elevation:2
   },
   sectionTitle: {
     fontSize: 24,
     margin:10,
     fontWeight: '700',
-    color:'black'
+    color:'#17c'
   },
   scrollview:{
-    flex:4
+    flex:4,
+    marginTop:20,
+    borderTopLeftRadius:50,
+    borderTopRightRadius:50,
   },
   detailContainer:{
     marginTop: 10,
@@ -98,6 +104,7 @@ const styles = StyleSheet.create({
     flex:1,
     flexWrap:'wrap',
     flexDirection:'row',
+    justifyContent:'center'
   },
   date:{
     fontSize: 16,
