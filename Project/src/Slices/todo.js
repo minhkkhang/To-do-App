@@ -6,7 +6,7 @@ export const ToDoSlice = createSlice({
     initialState: {
         list:[],
         flag:'IDLE', //IDLE, BUSY
-        currentID:7,
+        currentID:4,
         isintitiated:false
     },
     reducers: {
@@ -58,51 +58,27 @@ const {init,add,update,remove,toggle_busy_flag,toggle_idle_flag,toggle_init_flag
 const initValue=[
   {
     id: 1,
-    taskName: 'Hoc react native',
+    taskName: 'Task 1',
     status:'doing',
-    startDate:'01/10/2020',
+    startDate:'2020/10/01',
     endDate:'Unknown',
-    detail:'Hoc Hook, props, navigation, redux'
+    detail:'This is task number one'
   },
   {
     id: 2,
-    taskName: 'Chuan bi giay to',
+    taskName: 'Task 2',
     status:'not started',
     startDate:'Unknown',
     endDate:'Unknown',
-    detail:`1: 4 ban photo CMND \n 2:3 anh the \n 3:Giay xac nhan o truong.`
+    detail:'This is task number two'
   },
   {
     id: 3,
-    taskName: 'Di phong van thuc tap',
+    taskName: 'Task 3',
     status:'done',
-    startDate:'18/09/2020',
-    endDate:'18/09/2020',
-    detail:'Di phong van thuc tap tai MeU Solutions'
-  },
-  {
-    id: 4,
-    taskName: 'Deadline do an mon Kien Truc Phan Mem',
-    status:'doing',
-    startDate:'06/10/2020',
-    endDate:'Unknown',
-    detail:'Lop Kien Truc Phan Mem 17_32'
-  },
-  {
-    id: 5,
-    taskName: 'Task 5',
-    status:'done',
-    startDate:'01/09/2020',
-    endDate:'20/09/2020',
-    detail:'This is task 5'
-  },
-  {
-    id: 6,
-    taskName: 'Task 6',
-    status:'not started',
-    startDate:'20/10/2020',
-    endDate:'Unknown',
-    detail:'This is task 6'
+    startDate:'2020/09/02',
+    endDate:'2020/09/08',
+    detail:'This is task number four'
   }
 ]
 export const InitList = () => {
@@ -124,6 +100,7 @@ export const InitList = () => {
         catch(error){
             console.log(error);
         }
+        dispatch(init(initValue));
         dispatch(toggle_init_flag());
         console.log(err);
       }
