@@ -24,7 +24,7 @@ const UserInput=(props)=>{
           alignItems:'center',
           flexDirection:'row',
           borderRadius: props.borderRadius||0,
-          height:props.height || 75}}
+          height:props.height}}
           >
             {props.source===''?<View style={{width: 5,}} />:<Image source={props.source} style={styles.inlineImg} />}
             <View style={{width:Dimensions.get('window').width-155}}>

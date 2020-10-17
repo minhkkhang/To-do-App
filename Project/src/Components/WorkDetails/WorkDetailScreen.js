@@ -47,16 +47,28 @@ const WorkDetailScreen = ({ route,navigation }) => {
     handleChange('detail',task.detail);
   }, [task])
 
-  navigation.tabBarVisible= false;
+  React.useEffect(() => {
+    const parent = navigation.dangerouslyGetParent();
+    parent.setOptions({
+      tabBarVisible: false
+    });
+    return () =>
+      parent.setOptions({
+        tabBarVisible: true
+      });
+  }, []);
+
     return (
         <ImageBackground source={BackGround} style={styles.parentView}>
           <ScrollView style={styles.scrollview}>
           <View style={{flex:1,marginHorizontal:20,backgroundColor:'white',borderRadius:20,elevation:2}}>
           <View style={styles.titleContainer}>
             {isEditing?(
-              <UserInput id="taskName" placeholder="Ten cong viec" multiline={false} source='' 
-              onChange={handleChange} value={newTaskDetail.taskName} keyboardType='default' height={50}
-              borderRadius={20}/>
+              <View style={{flex:1}}>
+                <UserInput id="taskName" placeholder="Ten cong viec" multiline={false} source='' 
+                onChange={handleChange} value={newTaskDetail.taskName} keyboardType='default' height={50}
+                borderRadius={20}/>
+              </View>
             ):(
               <Text style={styles.sectionTitle}>{task.taskName}</Text>
             )}
@@ -64,8 +76,10 @@ const WorkDetailScreen = ({ route,navigation }) => {
         
           <View style={styles.detailContainer}>
             {isEditing?(
-              <UserInput id="detail" placeholder="Mo ta cong viec" multiline={true} source='' 
-              onChange={handleChange} value={newTaskDetail.detail} keyboardType='default' />
+              <View style={{flex:1}}>
+                <UserInput id="detail" placeholder="Mo ta cong viec" multiline={true} source='' 
+                onChange={handleChange} value={newTaskDetail.detail} keyboardType='default' />
+              </View>
             ):(
               <Text style={styles.detail}>{task.detail}</Text>
             )}
