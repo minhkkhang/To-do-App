@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {AddTask} from '../../Slices/todo'
 
 const WorkList = ({route, navigation}) => {
+  
   const dispatch=useDispatch();
   const showTaskDetail=(id)=>{
     navigation.push('WorkDetail', {
@@ -63,7 +64,8 @@ const WorkList = ({route, navigation}) => {
         source={ListBackGround}
         width={Dimensions.get('screen').width}
       />
-      <TouchableOpacity
+      {!modalVisible?(
+        <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
           setModalVisible(!modalVisible);
@@ -74,6 +76,10 @@ const WorkList = ({route, navigation}) => {
           style={styles.floatingbuttonstyle}
         />
       </TouchableOpacity>
+      ):(
+        <View style={styles.floatingbutton} />
+      )}
+      
       <Modal
           animationType="slide"
           transparent={true}

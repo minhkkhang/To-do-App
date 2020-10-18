@@ -7,7 +7,8 @@ export const ToDoSlice = createSlice({
         list:[],
         flag:'IDLE', //IDLE, BUSY
         currentID:4,
-        isintitiated:false
+        isintitiated:false,
+        focusedtab:'all'
     },
     reducers: {
         init: (state,action) => {
@@ -50,11 +51,14 @@ export const ToDoSlice = createSlice({
         },
         toggle_init_flag: state =>{
           state.isintitiated = true;
+        },
+        change_focused_tab: (state,action) =>{
+          state.focusedtab=action.payload
         }
     }
   })
 const {init,add,update,remove,toggle_busy_flag,toggle_idle_flag,toggle_init_flag} = ToDoSlice.actions
-
+export const {change_focused_tab} = ToDoSlice.actions
 const initValue=[
   {
     id: 1,
