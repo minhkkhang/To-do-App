@@ -8,7 +8,13 @@ export const ToDoSlice = createSlice({
         flag:'IDLE', //IDLE, BUSY
         currentID:4,
         isintitiated:false,
-        focusedtab:'all'
+        focusedtab:'all',
+        badges:{
+          all:null,
+          notstarted:null,
+          doing:null,
+          done:null
+        }
     },
     reducers: {
         init: (state,action) => {
@@ -54,17 +60,24 @@ export const ToDoSlice = createSlice({
         },
         change_focused_tab: (state,action) =>{
           state.focusedtab=action.payload
+        },
+        loadbadges: (state,action)=>{
+          const { all,notstarted,doing,done } = action.payload
+          state.badges.all=all
+          state.badges.notstarted=notstarted
+          state.badges.doing=doing
+          state.badges.done=done
         }
     }
   })
-const {init,add,update,remove,toggle_busy_flag,toggle_idle_flag,toggle_init_flag} = ToDoSlice.actions
+const {init,add,update,remove,toggle_busy_flag,toggle_idle_flag,toggle_init_flag,loadbadges} = ToDoSlice.actions
 export const {change_focused_tab} = ToDoSlice.actions
 const initValue=[
   {
     id: 1,
     taskName: 'Task 1',
     status:'doing',
-    startDate:'2020/10/01',
+    startDate:'2020-10-01',
     endDate:'Unknown',
     detail:'This is task number one'
   },
@@ -80,8 +93,8 @@ const initValue=[
     id: 3,
     taskName: 'Task 3',
     status:'done',
-    startDate:'2020/09/02',
-    endDate:'2020/09/08',
+    startDate:'2020-09-02',
+    endDate:'2020-09-08',
     detail:'This is task number four'
   }
 ]
@@ -90,12 +103,27 @@ export const InitList = () => {
     return async (dispatch, getState) => {
       try {
         // make an async call to async storage in the thunk
-        const todos = await AsyncStorage.getItem('todoList');
-        const parsedTodos = JSON.parse(todos);
-        if(parsedTodos==null)throw new Error('No list');
+        const todos = await AsyncStorage.getItem('todoList')
+        const badges=await AsyncStorage.getItem('badges')
+        const parsedTodos = JSON.parse(todos)
+        const now = new Date()
+        for(i=0;i<parsedTodos.length;i++){
+          if(parsedTodos[i].startDate==='Unknown')continue
+          const start=new Date(parsedTodos[i].startDate)
+          if(parsedTodos[i].status!='done'){
+            if(start.getTime()<=now.getTime() && parsedTodos[i].status==='not started'){
+              parsedTodos[i].status='doing'
+            }
+          }
+        }
+        const parsedBadges=JSON.parse(badges)
+        if(parsedTodos==null)throw new Error('No list')
         // dispatch an action when we get the response back
-        dispatch(init(parsedTodos));
-        dispatch(toggle_init_flag());
+        dispatch(init(parsedTodos))
+        if(parsedBadges!=null){
+          dispatch(loadbadges(parsedBadges))
+        }
+        dispatch(toggle_init_flag())
       } catch (err) {
         // If the list has never been initiated in async storage then it will be initiated here
         try{

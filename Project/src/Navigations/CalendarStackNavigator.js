@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import WorkDetailScreen from '../Components/WorkDetails/WorkDetailScreen';
-import WorkList from '../Components/Home/WorkList';
+import CalendarScreen from '../Components/Calendar/CalendarScreen';
 import {
   Image,
   TouchableOpacity,
@@ -9,27 +9,19 @@ import {
 } from 'react-native';
 import MenuIcon from '../Assets/imgs/menu-symbol.png'
 import HeaderBackground from '../Assets/imgs/header-background.png'
-import { useIsFocused } from '@react-navigation/native';
-import {change_focused_tab} from '../Slices/todo'
-import { useDispatch } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 
 const Stack = createStackNavigator();
 
 //Stack navigator cua moi Tab trong trang Home, moi stack chua 2 screen la list va workdetail
-const TabStackNavigator = ({navigation,route}) => {
-  const isFocused=useIsFocused()
+const CalendarStackNavigator = ({navigation,route}) => {
   
   const dispatch=useDispatch();
+
+
   
-
-  useEffect(()=>{
-    if(isFocused){
-      dispatch(change_focused_tab(route.params.category))
-    }
-  },[useIsFocused()])
-
   return (
-    <Stack.Navigator initialRouteName='WorkList'>
+    <Stack.Navigator initialRouteName='Calendar'>
       <Stack.Screen name="WorkDetail" component={WorkDetailScreen} 
       options={{
         headerTitle: props => <Image resizeMode='cover'
@@ -44,7 +36,7 @@ const TabStackNavigator = ({navigation,route}) => {
           alignContent:'center'
         }
       }}/>
-      <Stack.Screen name="WorkList" component={WorkList} initialParams={{ category: route.params.category }}
+      <Stack.Screen name="Calendar" component={CalendarScreen}
       options={{
           headerTitle: props => <Image resizeMode='cover'
             style={{ width:Dimensions.get('screen').width, height: 40}} source={HeaderBackground}/>,
@@ -66,4 +58,4 @@ const TabStackNavigator = ({navigation,route}) => {
   )
 };
 
-export default TabStackNavigator;
+export default CalendarStackNavigator

@@ -96,7 +96,7 @@ export default SignUp;
 
 const styles = StyleSheet.create({
   mainView:{
-    height:Dimensions.get('window').height-20,
+    height:Dimensions.get('window').height,
   },
   parentView: {
     backgroundColor: 'white',

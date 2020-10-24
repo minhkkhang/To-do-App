@@ -7,24 +7,34 @@ import {
 import calendarImg from '../../Assets/imgs/calendar.png'
 import BackGround from '../../Assets/imgs/home-background.png'
 import UserInput from '../../Common/UserInput'
+import MyCalendar from '../../Common/MyCalendar'
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch,useSelector} from 'react-redux'
 import{UpdateTask} from '../../Slices/todo'
-
-
+import {_styles} from './styles'
+import dateFormat from 'dateformat'
 
 
 const WorkDetailScreen = ({ route,navigation }) => {
-  const dispatch=useDispatch();
-  const task=useSelector(state => state.todo.list.find(task => task.id === route.params.id));
-  const [newTaskDetail,setNewTaskDetail]=React.useState({taskName:task.taskName,detail:task.detail});
-  const [isEditing,setIsEditing]=React.useState(false);
+  const dispatch=useDispatch()
+  const task=useSelector(state => state.todo.list.find(task => task.id === route.params.id))
+  const [newTaskDetail,setNewTaskDetail]=React.useState({taskName:task.taskName,detail:task.detail,startDate:task.startDate})
+  const [isEditing,setIsEditing]=React.useState(false)
+  const [calendarVisible,setCalendarVisible]=React.useState(false)
   const handleChange = (id,value) => {
     setNewTaskDetail(prevState => ({
         ...prevState,
         [id]: value
     }));
   };
+  const onCalendarPressed = (date) =>{
+    setCalendarVisible(false)
+    handleChange('startDate',date)
+  }
+  React.useEffect(()=>{
+    if(newTaskDetail.startDate===task.startDate)return
+    updateTask()
+  },[newTaskDetail.startDate])
 
   const updateTask = ()=>{
     if(newTaskDetail.taskName==='' || newTaskDetail.detail===''){
@@ -34,30 +44,29 @@ const WorkDetailScreen = ({ route,navigation }) => {
     const updatedTask={...task};
     updatedTask.taskName=newTaskDetail.taskName
     updatedTask.detail=newTaskDetail.detail
+    updatedTask.startDate=newTaskDetail.startDate
+    if(updatedTask.startDate!='Unknown' && updatedTask.status!='done'){
+      const start=new Date(updatedTask.startDate)
+      const now = new Date()
+      if(start.getTime()<=now.getTime()){
+        updatedTask.status='doing'
+      }
+      else updatedTask.status='not started'
+    }
+    
     try{
         dispatch(UpdateTask(updatedTask));
-        setIsEditing(!isEditing);
+        setIsEditing(false);
     }catch(err){
         console.log(err);
     }
   }
 
   React.useEffect(() => {
-    handleChange('taskName',task.taskName);
-    handleChange('detail',task.detail);
-  }, [task])
-
-  React.useEffect(() => {
-    const parent = navigation.dangerouslyGetParent();
-    parent.setOptions({
-      tabBarVisible: false
-    });
-    return () =>
-      parent.setOptions({
-        tabBarVisible: true
-      });
+    return () => {
+      if(route.params.onUnmount!=null)route.params.onUnmount();
+    }
   }, []);
-
     return (
         <ImageBackground source={BackGround} style={styles.parentView}>
           <ScrollView style={styles.scrollview}>
@@ -65,7 +74,7 @@ const WorkDetailScreen = ({ route,navigation }) => {
           <View style={styles.titleContainer}>
             {isEditing?(
               <View style={{flex:1}}>
-                <UserInput id="taskName" placeholder="Ten cong viec" multiline={false} source='' 
+                <UserInput id="taskName" placeholder="Ten cong viec" multiline={false} source={undefined} 
                 onChange={handleChange} value={newTaskDetail.taskName} keyboardType='default' height={50}
                 borderRadius={20}/>
               </View>
@@ -77,7 +86,7 @@ const WorkDetailScreen = ({ route,navigation }) => {
           <View style={styles.detailContainer}>
             {isEditing?(
               <View style={{flex:1}}>
-                <UserInput id="detail" placeholder="Mo ta cong viec" multiline={true} source='' 
+                <UserInput id="detail" placeholder="Mo ta cong viec" multiline={true} source={undefined} 
                 onChange={handleChange} value={newTaskDetail.detail} keyboardType='default' />
               </View>
             ):(
@@ -102,28 +111,46 @@ const WorkDetailScreen = ({ route,navigation }) => {
           
         </ScrollView>
         {!isEditing?(
-          <TouchableOpacity
+          <View>
+            <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {setIsEditing(!isEditing)}}
+            onPress={() => {
+              setCalendarVisible(false)
+              setIsEditing(true)
+            }}
             style={{position: 'absolute',left: 20,bottom: 20,}}>
-            <Image
-              source={require('../../Assets/imgs/edit.png')}
-              style={styles.floatingbuttonstyle}
-            />
-          </TouchableOpacity>
+              <Image
+                source={require('../../Assets/imgs/edit.png')}
+                style={styles.floatingbuttonstyle}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {setCalendarVisible(!calendarVisible)}}
+              style={{position: 'absolute',left: 20,bottom: 80,}}>
+              <Image
+                source={calendarVisible?
+                require('../../Assets/imgs/cancel.png'):
+                require('../../Assets/imgs/calendar.png')}
+                style={styles.floatingbuttonstyle}
+              />
+              </TouchableOpacity>
+            
+          </View>
+          
         ):(
-          <View style={{position: 'absolute',right: 20,bottom: 20,flex:1}}>
+          <View >
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {updateTask()}}
-              style={{position: 'absolute',right: 120,bottom: 20,}}>
+              style={{position: 'absolute',right: 80,bottom: 20,}}>
               <Image
                 source={require('../../Assets/imgs/done.png')}
                 style={styles.floatingbuttonstyle}/>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => {setIsEditing(!isEditing)}}
+              onPress={() => {setIsEditing(false)}}
               style={{position: 'absolute',right: 20,bottom: 20,}}>
               <Image
                 source={require('../../Assets/imgs/cancel.png')}
@@ -132,6 +159,24 @@ const WorkDetailScreen = ({ route,navigation }) => {
           </View>
         )}
 
+        {calendarVisible?(
+            <View style={{position: 'absolute',left: 20,bottom: 140,}}>
+              <MyCalendar
+                maxDate={task.endDate==='Unknown'?undefined:task.endDate}
+                selectedDate={task.startDate}
+                current={task.startDate}
+                onDayPress={onCalendarPressed}
+                monthFormat={'yyyy MM'}
+                firstDay={1}
+                showWeekNumbers={true}
+                onPressArrowLeft={subtractMonth => subtractMonth()}
+                onPressArrowRight={addMonth => addMonth()}
+                enableSwipeMonths={true}
+              />
+            </View>
+          ):(
+            <View />
+          )}
         
         
         
@@ -139,69 +184,6 @@ const WorkDetailScreen = ({ route,navigation }) => {
     );
 };
 export default WorkDetailScreen;
-  
 
-const styles = StyleSheet.create({
-  parentView: {
-    backgroundColor: 'white',
-    flex:5,
-    flexDirection: 'column',
-  },
-  titleContainer: {
-    marginTop: 20,
-    marginHorizontal:10,
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection:'row',
-    borderBottomWidth:1,
-    backgroundColor:'white',
-    borderRadius:20,
-    elevation:2
-  },
-  sectionTitle: {
-    fontSize: 24,
-    margin:10,
-    fontWeight: '700',
-    color:'#17c'
-  },
-  scrollview:{
-    flex:4,
-    marginTop:20,
-    borderTopLeftRadius:50,
-    borderTopRightRadius:50,
-  },
-  detailContainer:{
-    marginTop: 10,
-    marginHorizontal:10,
-    padding:5,
-    flex:3,
-    flexWrap:'wrap',
-    flexDirection:'row',
-    borderBottomWidth:1,
-  },
-  detail:{
-    fontSize: 18,
-    color: 'black',
-  },
-  dateContainer:{
-    marginTop: 10,
-    marginHorizontal:10,
-    padding:5,
-    flex:1,
-    flexWrap:'wrap',
-    flexDirection:'row',
-    justifyContent:'center'
-  },
-  date:{
-    fontSize: 16,
-    color: 'black',
-    fontStyle:'italic'
-  },
-  floatingbuttonstyle: {
-    resizeMode:'contain',
-    width: 75,
-    height: 75,
-    //backgroundColor:'black'
-  },
-});
+const styles=StyleSheet.create(_styles)
+  

@@ -8,6 +8,7 @@ import {InitList} from '../Slices/todo'
 import { ImageBackground,View } from 'react-native';
 
 import LoadingScreen from '../Assets/imgs/loading-screen.png'
+import CalendarStackNavigator from './CalendarStackNavigator';
 const Drawer = createDrawerNavigator();
 
 onComponentDidMount = () => {
@@ -32,6 +33,7 @@ const DrawerNavigator = () => {
         <Drawer.Navigator initialRouteName='Home' backBehavior='order'>
           <Drawer.Screen name="Home" component={HomeTabNavigator} />
           <Drawer.Screen name="About" component={AboutScreen} />
+          <Drawer.Screen name="Schedule" component={CalendarStackNavigator} />
         </Drawer.Navigator>
       ):(
         <ImageBackground style={{flex:1}} source={LoadingScreen} />

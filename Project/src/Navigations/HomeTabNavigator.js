@@ -7,12 +7,14 @@ import DoingIcon from '../Assets/imgs/clock.png'
 import DoneIcon from '../Assets/imgs/done.png'
 import { Image } from "react-native";
 import { useSelector } from 'react-redux'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const Tab = createBottomTabNavigator();
 
 const HomeTabNavigator = () => {
-  const [notiCount,setNotiCount]=useState({all:null,notstarted:null,doing:null,done:null}) //all, not started, doing, done
+  const badges=useSelector(state=>state.todo.badges)
+  const [notiCount,setNotiCount]=useState(badges) //all, not started, doing, done
   const [currentListSize,setCurrentListSize]=useState({all:-1,notstarted:-1,doing:-1,done:-1})
   const list =useSelector(state => state.todo.list)
   const focusedTab=useSelector(state => state.todo.focusedtab);
@@ -30,7 +32,8 @@ const HomeTabNavigator = () => {
         ...prevState,
         [id]: value
     }));
-  };
+  }
+  
   const updateListSize = (id,value) => {
     if(currentListSize[id]===value)return
     if(currentListSize[id]<value && currentListSize[id]>=0){
@@ -41,7 +44,8 @@ const HomeTabNavigator = () => {
         ...prevState,
         [id]: value
     }));
-  };
+  }
+
   useEffect(()=>{
     const newSize={
       all:list.length,
@@ -70,6 +74,15 @@ const HomeTabNavigator = () => {
         break
     }
   },[focusedTab])
+
+  useEffect(()=>{
+    async function saveBadges() {
+      const stringifiedBadges = JSON.stringify(notiCount)
+      await AsyncStorage.setItem('badges', stringifiedBadges)
+    }
+    saveBadges()
+  },[notiCount.notstarted,notiCount.doing,notiCount.done])
+
   return (
     <Tab.Navigator tabBarOptions={{
       activeTintColor: 'white',

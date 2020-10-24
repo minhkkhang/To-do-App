@@ -45,13 +45,18 @@ const AboutScreen = ({navigation}) => {
         <Stack.Screen name="About" component={ActualScreen}
         options={{
           headerTitle: props => <Image resizeMode='cover'
-          style={{ width:Dimensions.get('screen').width, height: 70}} source={HeaderBackground}/>,
+          style={{ width:Dimensions.get('screen').width, height: 40}} source={HeaderBackground}/>,
           headerStyle: {
-            height: 70, // Specify the height of your custom header
+            height: 40, // Specify the height of your custom header
           },
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <Image source={MenuIcon} style={{height:36,width:36,margin:15}}/>
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}
+            style={{height:40,width:72,
+              flexDirection:'row',
+              justifyContent:'center',
+              alignContent:'center'}}
+              >
+              <Image source={MenuIcon} style={{height:30,width:30,margin:5}}/>
             </TouchableOpacity>
           )
           }}/>

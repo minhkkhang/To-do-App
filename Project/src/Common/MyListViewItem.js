@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground,Dimensions, Image} from 'react-native';
+import { View, Text, StyleSheet, Alert, Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux'
 import {DeleteTask, UpdateTask} from '../Slices/todo'
@@ -8,6 +8,121 @@ import NotStartedIcon from '../Assets/imgs/pending.png'
 import DoingIcon from '../Assets/imgs/clock.png'
 import DoneIcon from '../Assets/imgs/done.png'
 import DeleteIcon from '../Assets/imgs/trash.png'
+import dateFormat from 'dateformat'
+
+const MyListViewItem = ({ title, status, id, onPress,width}) => {
+    const task=useSelector(state => state.todo.list.find(task => task.id === id));
+    const dispatch=useDispatch();
+    const deleteItem= ()=>{
+        Alert.alert(
+            'Xoa',
+            'Xoa cong viec '+title+'?',
+            [
+                { 
+                    text: 'OK', onPress: () => {
+                        try{
+                            dispatch(DeleteTask(task.id));
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel'
+                }
+            ],
+            { cancelable: true }
+          );
+    }
+    const changeStatus =()=>{
+        const updatedTask={...task}
+        var isShowingAlert=false
+        switch(updatedTask.status){
+            case 'not started':{
+                updatedTask.status='doing';
+                updatedTask.startDate = dateFormat(Date(),"yyyy-mm-dd");
+                break;
+            }
+            case 'doing':{
+                updatedTask.status='done';
+                updatedTask.endDate = dateFormat(Date(),"yyyy-mm-dd");
+                break;
+            }
+            case 'done':{
+                isShowingAlert=true
+                Alert.alert(
+                    'Xac nhan',
+                    'Ban co muon reset trang thai cua cong viec '+title+'?',
+                    [
+                        { 
+                            text: 'OK', onPress: () => {
+                                try{
+                                    updatedTask.status='doing'
+                                    updatedTask.endDate='Unknown'
+                                    try{
+                                        dispatch(UpdateTask(updatedTask));
+                                    }catch(err){
+                                        console.log(err);
+                                    }
+                                }catch(err){
+                                    console.log(err);
+                                }
+                            }
+                        },
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel'
+                        }
+                    ],
+                    { cancelable: true }
+                  );
+            }
+            default:{
+                break;
+            }
+        }
+        try{
+            if(!isShowingAlert)dispatch(UpdateTask(updatedTask))
+        }catch(err){
+            console.log(err);
+        }
+    }
+    return (
+    <View style={styles.listviewitem}>
+        <TouchableOpacity onPress={()=>{onPress(id)}}>
+            <View style={{width:width-100}}>
+                <Text style={styles.title}>
+                    {title}
+                </Text>
+            </View>
+        </TouchableOpacity>
+        <View style={styles.buttonscontainer}>
+                <TouchableOpacity onPress={()=>{deleteItem()}}>
+                    <View style={styles.deletebuttoncontainer} >
+                        <Image style={{width:24,height:24}} source={DeleteIcon} />
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>{changeStatus()}}>
+                    <View style={styles.statusbuttoncontainer} >
+                        {status==='not started'?(<Image style={{width:24,height:24}} source={NotStartedIcon} />):
+                            (status === 'doing'?
+                                (<Image style={{width:24,height:24}} source={DoingIcon} />):
+                                (<Image style={{width:24,height:24}} source={DoneIcon} />)
+                            )
+                        }
+                    </View>
+                </TouchableOpacity>
+            </View>
+        
+        
+
+    </View>
+)};
+
+export default MyListViewItem;
 
 const styles = StyleSheet.create({
     listviewitem:{
@@ -58,72 +173,3 @@ const styles = StyleSheet.create({
     },
     
 });
-
-const MyListViewItem = ({ title, status, id, onPress,width }) => {
-    const task=useSelector(state => state.todo.list.find(task => task.id === id));
-    const dispatch=useDispatch();
-    const deleteItem= ()=>{
-        try{
-            dispatch(DeleteTask(task.id));
-        }catch(err){
-            console.log(err);
-        }
-    }
-    const changeStatus =()=>{
-        const updatedTask={...task};
-        switch(updatedTask.status){
-            case 'not started':{
-                updatedTask.status='doing';
-                updatedTask.startDate = new Date().toJSON().slice(0,10);
-                break;
-            }
-            case 'doing':{
-                updatedTask.status='done';
-                updatedTask.endDate = new Date().toJSON().slice(0,10);
-                break;
-            }
-            default:{
-                break;
-            }
-        }
-        try{
-            dispatch(UpdateTask(updatedTask));
-        }catch(err){
-            console.log(err);
-        }
-    }
-    return (
-    <View style={styles.listviewitem}>
-        <TouchableOpacity onPress={()=>{onPress(id)}}>
-            <View style={{width:width-100}}>
-                <Text style={styles.title}>
-                    {title}
-                </Text>
-            </View>
-        </TouchableOpacity>
-        <View style={styles.buttonscontainer}>
-            <TouchableOpacity onPress={()=>{deleteItem()}}>
-                <View style={styles.deletebuttoncontainer} >
-                    <Image style={{width:24,height:24}} source={DeleteIcon} />
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{changeStatus()}}>
-                <View style={styles.statusbuttoncontainer} >
-                    {status==='not started'?(
-                        <Image style={{width:24,height:24}} source={NotStartedIcon} />
-                    ):(status === 'doing'?(
-                        <Image style={{width:24,height:24}} source={DoingIcon} />
-                    ):(
-                        <Image style={{width:24,height:24}} source={DoneIcon} />
-                    )
-                    )
-                    }
-                </View>
-            </TouchableOpacity>
-        </View>
-        
-
-    </View>
-)};
-
-export default MyListViewItem;
