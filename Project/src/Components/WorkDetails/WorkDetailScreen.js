@@ -48,7 +48,7 @@ const WorkDetailScreen = ({ route,navigation }) => {
     if(updatedTask.startDate!='Unknown' && updatedTask.status!='done'){
       const start=new Date(updatedTask.startDate)
       const now = new Date()
-      if(start.getTime()<=now.getTime()){
+      if(start.getTime()-25200000<=now.getTime()){
         updatedTask.status='doing'
       }
       else updatedTask.status='not started'
@@ -164,7 +164,6 @@ const WorkDetailScreen = ({ route,navigation }) => {
               <MyCalendar
                 maxDate={task.endDate==='Unknown'?undefined:task.endDate}
                 selectedDate={task.startDate}
-                current={task.startDate}
                 onDayPress={onCalendarPressed}
                 monthFormat={'yyyy MM'}
                 firstDay={1}

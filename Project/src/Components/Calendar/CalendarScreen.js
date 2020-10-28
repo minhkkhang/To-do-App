@@ -18,7 +18,7 @@ import ListBackGround from '../../Assets/imgs/home-background.png'
 import { LogBox } from 'react-native';
 
 
-const CalendarScreen=({route,navigation})=>{
+const CalendarScreen=({route, navigation})=>{
 
   const [selectedDate,setSelectedDate]=React.useState(dateFormat(Date(),"yyyy-mm-dd"))
   const [isShowingDetail,setIsShowingDetail]=React.useState(false)
@@ -49,51 +49,54 @@ const CalendarScreen=({route,navigation})=>{
     setIsShowingDetail(false)
   }
   
-    return (
-        <ImageBackground source={ListBackGround}  style={{flex:1,flexDirection:'column',
-        paddingHorizontal:Dimensions.get('screen').width/14,
-        marginTop:10}}>
-          <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
-          <View style={{
-            width:Dimensions.get('screen').width-Dimensions.get('screen').width/7,
-            height:Dimensions.get('screen').height/2,
-            borderTopLeftRadius:50,
-            borderTopRightRadius:50,
-            backgroundColor:'white',
-            borderWidth:1
-            }}>
-              <MyCalendar
-                selectedDate={selectedDate}
-                onDayPress={onCalendarPressed}
-                mode={'schedule'}
-              />
-            
-          </View>
-          <Text style={{color:'black',height:20,fontSize:16,flex:1}}>
-              Cong viec bat dau vao ngay {selectedDate}
-            </Text>
-            <MyListView 
-              width={Dimensions.get('screen').width-2*Dimensions.get('screen').width/15}
-              category={'startAt'}
-              onPress={showTaskDetail}
-              source={undefined}
-              date={selectedDate}
-              />
-            
-            <Text style={{color:'black',height:20,fontSize:16,flex:1}}>
-            Cong viec hoan thanh vao ngay {selectedDate}
-            </Text>
-            <MyListView 
-              width={Dimensions.get('screen').width-2*Dimensions.get('screen').width/15}
-              category={'endAt'}
-              onPress={showTaskDetail}
-              source={undefined}
-              date={selectedDate}
-              />
-          
-          </ScrollView>
-        </ImageBackground>
-    )
+  return (
+    <ImageBackground
+      source={ListBackGround}
+      style={{flex:1,flexDirection:'column',
+      paddingHorizontal:Dimensions.get('screen').width/14,
+      marginTop:10}}
+    >
+      <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
+      <View style={{
+        width:Dimensions.get('screen').width-Dimensions.get('screen').width/7,
+        height:Dimensions.get('screen').height/2,
+        borderTopLeftRadius:50,
+        borderTopRightRadius:50,
+        backgroundColor:'white',
+        borderWidth:1
+        }}>
+          <MyCalendar
+            selectedDate={selectedDate}
+            onDayPress={onCalendarPressed}
+            mode={'schedule'}
+          />
+        
+      </View>
+      <Text style={{color:'black',height:20,fontSize:16,flex:1}}>
+          Cong viec bat dau vao ngay {selectedDate}
+        </Text>
+        <MyListView 
+          width={Dimensions.get('screen').width-2*Dimensions.get('screen').width/15}
+          category={'startAt'}
+          onPress={showTaskDetail}
+          source={undefined}
+          date={selectedDate}
+          />
+        
+        <Text style={{color:'black',height:20,fontSize:16,flex:1}}>
+        Cong viec hoan thanh vao ngay {selectedDate}
+        </Text>
+        <MyListView 
+          width={Dimensions.get('screen').width-2*Dimensions.get('screen').width/15}
+          category={'endAt'}
+          onPress={showTaskDetail}
+          source={undefined}
+          date={selectedDate}
+          />
+      
+      </ScrollView>
+    </ImageBackground>
+  )
 }
 export default CalendarScreen
 

@@ -57,7 +57,7 @@ const WorkList = ({route, navigation}) => {
     }
     if(task.startDate!='Unknown'){
       const start=new Date(task.startDate)
-      if(start.getTime()<=now.getTime())task.status='doing'
+      if(start.getTime()-25200000<=now.getTime())task.status='doing'
     }
     try{
       dispatch(AddTask(task))

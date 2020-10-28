@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {setNotification,cancelNotification} from '../notification'
 export const ToDoSlice = createSlice({
     name: 'todo',
     initialState: {
@@ -108,10 +108,10 @@ export const InitList = () => {
         const parsedTodos = JSON.parse(todos)
         const now = new Date()
         for(i=0;i<parsedTodos.length;i++){
-          if(parsedTodos[i].startDate==='Unknown')continue
-          const start=new Date(parsedTodos[i].startDate)
-          if(parsedTodos[i].status!='done'){
-            if(start.getTime()<=now.getTime() && parsedTodos[i].status==='not started'){
+          if(parsedTodos[i].startDate==='Unknown' || parsedTodos[i].status==='done')continue
+          else{
+            const start=new Date(parsedTodos[i].startDate)
+            if(start.getTime()-25200000<=now.getTime() && parsedTodos[i].status==='not started'){
               parsedTodos[i].status='doing'
             }
           }
@@ -161,7 +161,10 @@ export const AddTask = Task =>{
           currentList.push(Task);
           const stringifiedTodos = JSON.stringify(currentList);
           await AsyncStorage.setItem('todoList', stringifiedTodos)
-          
+          if(Task.startDate!='Unknown' && Task.status==='not started'){
+            const tempdate=new Date(Task.startDate)
+            setNotification(Task.id,Task.taskName,Task.detail,new Date(tempdate-25200000))
+          }
           // dispatch an action when we get the response back
           dispatch(add(Task))
           dispatch(toggle_idle_flag());
@@ -190,6 +193,11 @@ export const UpdateTask = (Task) =>{
           const stringifiedTodos = JSON.stringify(currentList);
           // make an async call in the thunk
           await AsyncStorage.setItem('todoList', stringifiedTodos)
+
+          if(target.startDate!='Unknown' && target.status==='not started'){
+            const tempdate=new Date(target.startDate)
+            setNotification(target.id,target.taskName,target.detail,new Date(tempdate-25200000))
+          }
           // dispatch an action when we get the response back
           dispatch(update(Task))
           dispatch(toggle_idle_flag());
@@ -217,6 +225,8 @@ export const DeleteTask = (id) =>{
           const stringifiedTodos = JSON.stringify(newList);
           // make an async call in the thunk
           await AsyncStorage.setItem('todoList', stringifiedTodos)
+
+          cancelNotification(id)
           
           // dispatch an action when we get the response back
           dispatch(remove(id))
@@ -229,5 +239,4 @@ export const DeleteTask = (id) =>{
     }
 }
 
-  
   export default ToDoSlice.reducer
